@@ -1,0 +1,4 @@
+-Slanje zahtjeva serveru. Zadatak je poslati HTTP upit i rezultat vratiti.
+-Razbijač requestova koji šalje dio po dio a kad skuplja skupi sve
+-Modul koji obrađuje tekst, pretvara latex u text i transparentno vraća
+-Modul koji označava greške
