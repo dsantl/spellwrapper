@@ -2,3 +2,13 @@
 -Razbijač requestova koji šalje dio po dio a kad skuplja skupi sve
 -Modul koji obrađuje tekst, pretvara latex u text i transparentno vraća
 -Modul koji označava greške
+
+-Requester je razred koji ima sučelje od requestera i za svaki spell checker ima posebnu implementaciju.
+-Requesteru tekst koji se šalje, šalje text splitter koji ukupni tekst razbija i skuplja od Requestera. Koristi sučelja tako da svaka ima više implementacija
+u ovisnosti što vrati requester (koja vrsta povratne vrjednosti je), također splitter se brine o tome da vrati položaje grešaka u jedinstvenom formatu (koji trebamo dogovoriti)
+-Splitter dobija tekst od Parsera. Parser pretvara latex kod u čisti tekst. Očekuje od splittera (koji je ograđen u senderu) da vrati sve greške u standardnom formatu. Nakon toga greške označava i šalje u GUI u latex formatu.
+
+-Parser radi leksičku analizu. Tekst je sve što nisu "naredbe". Naredbe je sve što počinje sa specjalnim znakom. Ako je to "čista" naredba, tj. sve riječi koje počinju sa "\" tada se gleda konfiguracijska datoteka u kojo je zapisano na koji način treba tumačiti tu naredbu (ako je nema zanemaruje se). Dodatno se mogu definirati sub znakovi, to znači da se "čista" naredba može pretvorti u specjalni znak (za specjalna slova, preferirati zanemarivanje, npr. znak postotka i sl.)
+
+-jQuery + bootstrap
+
