@@ -1,8 +1,10 @@
 from interface import IRequester
-from singleton import RequestSingleton
+import sys
+sys.path.append("../")
+from common import Singleton
 import requests
 
-class HacheckRequester(RequestSingleton, IRequester):
+class HacheckRequester(Singleton, IRequester):
 
 	def send_request(self, text):
 		rqs = {"textarea":text}

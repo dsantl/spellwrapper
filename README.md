@@ -1,4 +1,0 @@
-spellwrapper
-============
-
-Spellchecker for LaTex
