@@ -1,0 +1,2 @@
+#!/bin/bash
+delatex $1 | ./splitter.py | ./requester.py | ./joiner.py $1

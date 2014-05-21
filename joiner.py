@@ -3,6 +3,17 @@
 import sys
 import xml.etree.ElementTree as ET
 
+def generate_suggestion_list(error):
+	ret = list()
+	words = error.find("suggestions")
+	if words is None:
+		return ret
+	
+	for word in words:
+		ret.append(word.text)
+
+	return ret
+
 def return_solution(offset_list, solution_text, file_name):
 	
 	file_latex = open(file_name, 'r')
@@ -25,19 +36,22 @@ def return_solution(offset_list, solution_text, file_name):
 			
 			if real_position != -1 and real_lenght != -1:
 				word = solution_text[real_position:real_position+real_lenght]
-				error_words.append(word)
+				suggestion_list = generate_suggestion_list(error) 
+				error_words.append((word, suggestion_list))
 				#print (real_position, real_lenght)
 				#print (solution_text[real_position:real_position+real_lenght])
-
+	
 	start_find = 0
-	for word in error_words:
+	for errors in error_words:
+		word, suggestion_list = errors
 		new_position = latexText.find(word, start_find)
 		if new_position == -1:
 			continue 
+		
+		latexText = latexText[:new_position] + ">>>ERROR>>>" + word + "<<<(" + ",".join(suggestion_list) + ") " + latexText[new_position+len(word):]
 		start_find = new_position
-		print("|"+word+"|")
-		print(new_position)
-
+	
+	return latexText
 
 def get_all_errors(root):
 
@@ -70,12 +84,11 @@ def main():
 		
 		text, errors = rqs.split(splitWord)
 		root = ET.fromstring(errors)
-		
 		offset_list.append( (get_all_errors(root), offset) ) #append tupple
 		offset += len(text)
 		solution_text += text;
 
-	return_solution(offset_list, solution_text, sys.argv[1])
+	print(return_solution(offset_list, solution_text, sys.argv[1]))
 
 if __name__ == "__main__":
 	main()
