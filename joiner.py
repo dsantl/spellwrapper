@@ -14,11 +14,8 @@ def generate_suggestion_list(error):
 
 	return ret
 
-def return_solution(offset_list, solution_text, file_name):
+def return_solution(offset_list, solution_text):
 	
-	file_latex = open(file_name, 'r')
-
-	latexText = "".join(file_latex.readlines())
 	
 	error_words = list()
 
@@ -38,21 +35,13 @@ def return_solution(offset_list, solution_text, file_name):
 				word = solution_text[real_position:real_position+real_lenght]
 				suggestion_list = generate_suggestion_list(error) 
 				error_words.append((word, suggestion_list))
-				#print (real_position, real_lenght)
-				#print (solution_text[real_position:real_position+real_lenght])
 	
 	start_find = 0
 	for errors in error_words:
 		word, suggestion_list = errors
-		new_position = latexText.find(word, start_find)
-		if new_position == -1:
-			continue 
-		
-		latexText = latexText[:new_position] + ">>>ERROR>>>" + word + "<<<(" + ",".join(suggestion_list) + ") " + latexText[new_position+len(word):]
-		start_find = new_position
+		print(word)
+		print(suggestion_list)
 	
-	return latexText
-
 def get_all_errors(root):
 
 	ret_list = list()
@@ -88,7 +77,7 @@ def main():
 		offset += len(text)
 		solution_text += text;
 
-	print(return_solution(offset_list, solution_text, sys.argv[1]))
+	return_solution(offset_list, solution_text)
 
 if __name__ == "__main__":
 	main()
