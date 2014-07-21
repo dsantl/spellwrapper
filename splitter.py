@@ -2,19 +2,11 @@
 
 import sys
 
-import locale
-locale.getpreferredencoding = lambda: 'UTF-8'
-
-sys.stdin = open('/dev/stdin', 'r')       # Re-open standard files in UTF-8 
-sys.stdout = open('/dev/stdout', 'w')     # mode.
-sys.stderr = open('/dev/stderr', 'w')
-
 max_char = 500
-tmpText = ""
 
-for line in iter(sys.stdin.readline, ''):
-	line = line.replace("\n", " ")
-	tmpText += line
-	if len(tmpText) > max_char:
-		print(tmpText)
-		tmpText = ""
+text = sys.stdin.read().replace("\n", " ")
+output = '\n'.join(
+    text[off: off + max_char] for off in range(0, len(text), max_char)
+)
+
+print(output)
