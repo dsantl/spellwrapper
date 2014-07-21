@@ -6,12 +6,6 @@ import time
 import threading
 import queue
 
-import locale
-locale.getpreferredencoding = lambda: 'UTF-8'
-
-sys.stdin = open('/dev/stdin', 'r')       # Re-open standard files in UTF-8 
-sys.stdout = open('/dev/stdout', 'w')     # mode.
-sys.stderr = open('/dev/stderr', 'w')
 
 
 def send_request(text, answer_queue, thread_queue, id):
