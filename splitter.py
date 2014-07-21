@@ -7,7 +7,7 @@ import re
 max_char = 500
 
 text = sys.stdin.read()
-split_cands = [x.start() for x in re.finditer("\n", text)]
+split_cands = [x.start() for x in re.finditer("\n\n", text)]
 text = text.replace("\n", " ")
 
 last = 0
