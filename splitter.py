@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
 import sys
+import re
+
 
 max_char = 500
 
-text = sys.stdin.read().replace("\n", " ")
-output = '\n'.join(
-    text[off: off + max_char] for off in range(0, len(text), max_char)
-)
+text = sys.stdin.read()
+split_cands = [x.start() for x in re.finditer("\n", text)]
+text = text.replace("\n", " ")
 
-print(output)
+last = 0
+for curr in split_cands:
+    if curr - last > max_char:
+        print(text[last: curr])
+        last = curr
+
+print(text[last:])
