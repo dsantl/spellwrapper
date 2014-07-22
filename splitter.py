@@ -4,7 +4,7 @@ import sys
 import re
 
 
-max_char = 500
+MAX_CHAR = 500
 
 text = sys.stdin.read()
 split_cands = [x.start() for x in re.finditer("\n\n", text)]

@@ -13,7 +13,7 @@ def send_request(text):
 
 if __name__ == '__main__':
 
-    thread_number = 5
+    THREAD_NUMBER = 5
 
     p = mp.Pool(thread_number)
     resulsts = p.map(send_request, sys.stdin.readlines())
