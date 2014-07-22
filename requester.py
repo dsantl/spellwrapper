@@ -12,7 +12,10 @@ def send_request(text):
 
 
 if __name__ == '__main__':
-    p = mp.Pool(5)
+
+    thread_number = 5
+
+    p = mp.Pool(thread_number)
     resulsts = p.map(send_request, sys.stdin.readlines())
 
     split_word = '!__ENDOFTEXT__!'
