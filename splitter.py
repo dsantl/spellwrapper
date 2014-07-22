@@ -12,7 +12,7 @@ text = text.replace("\n", " ")
 
 last = 0
 for curr in split_cands:
-    if curr - last > max_char:
+    if curr - last > MAX_CHAR:
         print(text[last: curr])
         last = curr
 
