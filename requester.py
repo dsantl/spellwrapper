@@ -12,7 +12,6 @@ def send_request(text):
 
 
 if __name__ == '__main__':
-
     THREAD_NUMBER = 5
 
     p = mp.Pool(THREAD_NUMBER)
