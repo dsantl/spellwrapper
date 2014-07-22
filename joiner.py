@@ -10,7 +10,6 @@ def generate_suggestion_list(error):
 
 
 def return_solution(offset_list, solution_text):
-
     error_words = list()
 
     for errors, offset in offset_list:
@@ -31,7 +30,6 @@ def return_solution(offset_list, solution_text):
 
 
 def get_all_errors(root):
-
     ret_list = [error for error in root.findall('error')]
 
     for child in root:
@@ -52,7 +50,6 @@ def main():
     rqs_list = allText.split(endRQS.rstrip())
 
     for rqs in rqs_list:
-
         if rqs.find(splitWord) == -1:
             continue
 
