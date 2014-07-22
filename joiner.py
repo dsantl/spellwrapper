@@ -13,8 +13,7 @@ def return_solution(offset_list, solution_text):
 
     error_words = list()
 
-    for item in offset_list:
-        errors, offset = item
+    for errors, offset in offset_list:
         for error in errors:
             real_position = -1
             real_lenght = -1
