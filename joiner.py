@@ -30,8 +30,7 @@ def return_solution(offset_list, solution_text):
                 suggestion_list = generate_suggestion_list(error)
                 error_words.append((word, suggestion_list))
 
-    for errors in error_words:
-        word, suggestion_list = errors
+    for word, suggestion_list in error_words:
         print(word)
         print(suggestion_list)
 
