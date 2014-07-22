@@ -5,15 +5,8 @@ import xml.etree.ElementTree as ET
 
 
 def generate_suggestion_list(error):
-    ret = list()
     words = error.find("suggestions")
-    if words is None:
-        return ret
-
-    for word in words:
-        ret.append(word.text)
-
-    return ret
+    return [w.text for w in words] if words else []
 
 
 def return_solution(offset_list, solution_text):
@@ -37,7 +30,6 @@ def return_solution(offset_list, solution_text):
                 suggestion_list = generate_suggestion_list(error)
                 error_words.append((word, suggestion_list))
 
-    start_find = 0
     for errors in error_words:
         word, suggestion_list = errors
         print(word)
@@ -46,13 +38,10 @@ def return_solution(offset_list, solution_text):
 
 def get_all_errors(root):
 
-    ret_list = list()
-
-    for error in root.findall('error'):
-        ret_list.append(error)
+    ret_list = [error for error in root.findall('error')]
 
     for child in root:
-        ret_list += get_all_errors(child)
+        ret_list.extend(get_all_errors(child))
 
     return ret_list
 
