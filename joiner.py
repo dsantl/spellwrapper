@@ -53,7 +53,7 @@ def main():
     allText = "".join(sys.stdin.readlines())
     offset = 0
     offset_list = list()  # list of tuple(error_list, offset)
-    solution_text = ""  # allText without escape words
+    solution_text_list = []  # allText without escape words
 
     rqs_list = allText.split(endRQS.rstrip())
 
@@ -66,9 +66,9 @@ def main():
         root = ET.fromstring(errors)
         offset_list.append((get_all_errors(root), offset))  # append tupple
         offset += len(text)
-        solution_text += text
+        solution_text_list.append(text)
 
-    return_solution(offset_list, solution_text)
+    return_solution(offset_list, ''.join(solution_text_list))
 
 if __name__ == "__main__":
     main()
