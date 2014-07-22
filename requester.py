@@ -13,11 +13,10 @@ def send_request(text):
 
 if __name__ == '__main__':
     p = mp.Pool(5)
+    resulsts = p.map(send_request, sys.stdin.readlines())
 
     split_word = '!__ENDOFTEXT__!'
     end_rqs = '!__ENDRQS__!'
-
-    resulsts = p.map(send_request, sys.stdin.readlines())
 
     for old, new in resulsts:
         sys.stdout.write(old + split_word + new + end_rqs)
