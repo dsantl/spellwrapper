@@ -10,34 +10,26 @@ def generate_suggestion_list(error):
 
 
 def return_solution(offset_list, solution_text):
-
     error_words = list()
 
-    for item in offset_list:
-        errors, offset = item
+    for errors, offset in offset_list:
         for error in errors:
-            real_position = -1
-            real_lenght = -1
             position = error.find("position")
             lenght = error.find("length")
-            if position is not None:
-                real_position = int(position.text) + offset
-            if lenght is not None:
-                real_lenght = int(lenght.text)
+            real_position = int(position.text) + offset if position else -1
+            real_lenght = int(lenght.text) if lenght else -1
 
             if real_position != -1 and real_lenght != -1:
                 word = solution_text[real_position:real_position+real_lenght]
                 suggestion_list = generate_suggestion_list(error)
                 error_words.append((word, suggestion_list))
 
-    for errors in error_words:
-        word, suggestion_list = errors
+    for word, suggestion_list in error_words:
         print(word)
         print(suggestion_list)
 
 
 def get_all_errors(root):
-
     ret_list = [error for error in root.findall('error')]
 
     for child in root:
@@ -58,7 +50,6 @@ def main():
     rqs_list = allText.split(endRQS.rstrip())
 
     for rqs in rqs_list:
-
         if rqs.find(splitWord) == -1:
             continue
 

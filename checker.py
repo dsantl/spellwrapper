@@ -23,6 +23,7 @@ def main():
         sys.stdout.write(
             latexText[begin:start]+">>>ERROR>>>"+word+" "+sug_list+"<<< ")
         begin = start + lenght
+
     print(latexText[begin:])
 
 if __name__ == "__main__":
