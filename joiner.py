@@ -16,8 +16,9 @@ def return_solution(offset_list, solution_text):
         for error in errors:
             position = error.find("position")
             lenght = error.find("length")
-            real_position = int(position.text) + offset if position else -1
-            real_lenght = int(lenght.text) if lenght else -1
+            real_position = int(position.text) + offset \
+                if position is not None else -1
+            real_lenght = int(lenght.text) if lenght is not None else -1
 
             if real_position != -1 and real_lenght != -1:
                 word = solution_text[real_position:real_position+real_lenght]
@@ -26,7 +27,7 @@ def return_solution(offset_list, solution_text):
 
     for word, suggestion_list in error_words:
         print(word)
-        print(suggestion_list)
+        print(",".join(suggestion_list))
 
 
 def get_all_errors(root):
