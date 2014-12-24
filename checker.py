@@ -1,30 +1,29 @@
 #!/usr/bin/env python3
 
 import sys
-
+import re
 
 def main():
 
     file_name = sys.argv[1]
 
-    with open(file_name) as f:
-        latexText = "".join(f.readlines())
-
     errors = sys.stdin.readlines()
-    begin = 0
+
+    error_map = dict()
 
     for i in range(0, len(errors), 2):
         word = errors[i].rstrip()
         sug_list = errors[i+1].rstrip()
-        start = latexText.find(word, begin)
-        if start == -1:
-            continue
-        lenght = len(word)
-        sys.stdout.write(
-            latexText[begin:start]+">>>ERROR>>>"+word+" "+sug_list+"<<< ")
-        begin = start + lenght
+        error_map[word] = sug_list
+    
+    with open(file_name) as f:
+        latexText = "".join(f.readlines())
 
-    print(latexText[begin:])
+    for key in error_map:
+        error_text = ">>>ERROR>>>"+key+"<<<"+error_map[key]+"<<< "
+        latexText = re.sub("\W"+key+"\W", error_text, latexText)
+        
+    print(latexText)
 
 if __name__ == "__main__":
     main()
