@@ -1,9 +1,13 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/json'
 require 'slim'
 require 'pry'
+require 'base64'
 
 class SpellWrapper < Sinatra::Base
+  helpers Sinatra::JSON
+
   configure :development do
     register Sinatra::Reloader
   end
@@ -13,14 +17,23 @@ class SpellWrapper < Sinatra::Base
   end
 
   post '/check' do
-    File.write('temp.txt', params['text'])
-    @output = check
-    slim :index
+    file_path = 'temp.txt'
+    if params[:file]
+      data = params[:file][:data]
+      data_index = data.index('base64') + 7
+      filedata = data.slice(data_index, data.length)
+      decoded_file = Base64.decode64(filedata)
+      File.write(file_path, decoded_file)
+    else
+      File.write(file_path, params['text'])
+    end
+    @output = check(file_path)
+    json result: @output
   end
 
   private
-    def check
-      `delatex temp.txt | scripts/splitter.py | scripts/requester.py | scripts/joiner.py | scripts/checker.py temp.txt`
+    def check(file)
+      `delatex #{file} | scripts/splitter.py | scripts/requester.py | scripts/joiner.py | scripts/checker.py #{file}`
     end
 
   run if app_file == $0

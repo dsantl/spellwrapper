@@ -5,7 +5,11 @@
     .col-sm-8
       form role='form' action='check' method='POST'
         .form-group
-          textarea.form-control name='text' rows=10
-            = @output
+          textarea.form-control name='text' rows=20 placeholder='Unesite tekst...'
+          #checked-text
+          .loading Procesiranje...
+
+        .form-group
+          input type='file' name='file'
         .form-group
           button.btn.btn-success type='submit' value='Check' Check
