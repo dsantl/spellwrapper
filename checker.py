@@ -20,7 +20,7 @@ def main():
         latexText = "".join(f.readlines())
 
     for key in error_map:
-        error_text = ">>>ERROR>>>"+key+"<<<"+error_map[key]+"<<< "
+        error_text = " ERROR{"+key+"}{"+error_map[key]+"} "
         latexText = re.sub("\W"+key+"\W", error_text, latexText)
         
     print(latexText)
