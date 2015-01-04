@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title Latex spell checker
+    meta charset='utf-8'
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
+    link rel="stylesheet" href="/css/checker.css"
+    link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css"
+    script src="//code.jquery.com/jquery-2.1.3.min.js"
+    script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"
+
+  body
+    / nav.navbar-default.navbar-inverse role="navigation"
+    /   .container
+    /     .navbar-header
+    /       button.navbar-toggle type='button' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1'
+    /         span.sr-only Toggle navigation
+    /         span.icon-bar
+    /         span.icon-bar
+    /         span.icon-bar
+    /       a.navbar-brand href='/' Riak News Portal
+    /     .collapse.navbar-collapse#bs-example-navbar-collapse-1
+    /       ul.nav.navbar-nav
+    /         li
+    /           a href="/" News
+    /         li
+    /           a href='/authors' Authors
+    /         li
+    /           a href="/news/new" Add
+
+    .container
+      == yield

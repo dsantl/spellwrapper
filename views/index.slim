@@ -1,0 +1,11 @@
+.container
+  h1 Latex spell check
+  br
+  .row
+    .col-sm-8
+      form role='form' action='check' method='POST'
+        .form-group
+          textarea.form-control name='text' rows=10
+            = @output
+        .form-group
+          button.btn.btn-success type='submit' value='Check' Check
