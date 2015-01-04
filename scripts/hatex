@@ -1,2 +1,12 @@
 #!/bin/bash
-/etc/opendetex/delatex $1 | ./splitter.py | ./requester.py | ./joiner.py | ./checker.py $1
+
+if [ "$1" == "-f" ]
+    then
+        /etc/opendetex/delatex $2 | ./splitter.py | ./requester.py | ./joiner.py | ./checker.py $2
+    else
+        hashrandom="$(echo $RANDOM$RANDOM$RANDOM | sha1sum | cut -d' ' -f1)"
+        filename="./tmpfile/$hashrandom.tex"
+        cat >$filename
+        /etc/opendetex/delatex $filename | ./splitter.py | ./requester.py | ./joiner.py | ./checker.py $filename
+        rm $filename
+fi
