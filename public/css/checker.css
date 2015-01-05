@@ -3,10 +3,27 @@ body {
   font-size: 16px;
 }
 
-#checked-text {
+#checked-text,
+#insert-btn {
   display: none;
 }
 
 .loading {
   display: none;
+}
+
+#checked-text .error {
+  color: red;
+  position: relative;
+}
+
+#checked-text .suggestions {
+  position: absolute;
+  z-index: 2;
+}
+
+#checked-text .suggestion {
+  color: green;
+  display: block;
+  padding: 0 5px;
 }

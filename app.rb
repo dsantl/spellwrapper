@@ -33,6 +33,7 @@ class SpellWrapper < Sinatra::Base
 
   private
     def check(file)
+      ENV['LC_CTYPE']='en_US.UTF-8'
       `delatex #{file} | scripts/splitter.py | scripts/requester.py | scripts/joiner.py | scripts/checker.py #{file}`
     end
 

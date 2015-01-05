@@ -1,11 +1,33 @@
 $(function() {
-  var file = loadFile();;
+  var file = loadFile();
+  $textarea = $('form textarea');
+  $checked_text = $('#checked-text');
+  $insert_btn = $('#insert-btn');
+  $check_btn = $('#check-btn');
+  REGEX = /ERROR\{(.+?)\}\{(.*?)\}/;
 
-  $('form').on('submit', function(e){
+  $('body').on('click', '#clear-btn', function(e){
+    $textarea.val('').show();
+    $checked_text.hide();
+    $insert_btn.hide();
+    $check_btn.show();
+  });
+
+  $insert_btn.on('click', function(e){
+    $textarea.show();
+    $checked_text.hide().text('');
+    $insert_btn.hide();
+    $check_btn.show();
+  });
+
+  $('body').on('submit', 'form', function(e){
     e.preventDefault();
+    if ($(this).attr('disabled') == 'disabled') {
+      return false;
+    }
 
-    $(this).attr('disabled', true);
-    $textarea = $(this).find('textarea');
+    $form = $(this);
+    $form.attr('disabled', true).addClass('disabled');
     $textarea.hide();
     $loading = $('.loading');
     $loading.show();
@@ -46,7 +68,33 @@ function submitForm(form_data){
     data: form_data,
     success: function(data) {
       $loading.hide();
-      $textarea.val(data.result).show();
+      // $textarea.val(data.result).show();
+      $form.attr('disabled', false).removeClass('disabled');
+      formatted_result = formatResult(data.result);
+      $checked_text.html(formatted_result).show();
+      $insert_btn.show();
+      $check_btn.hide();
     }
   });
+}
+
+function formatResult(data){
+  match = data.match(REGEX);
+  while (match) {
+    replaced_string = match[0];
+    replacing_string = '<span class="error">' + match[1];
+    suggestions = match[2].split(',');
+    if (suggestions.length) {
+      replacing_string += '<span class="suggestions">';
+      $.each(suggestions, function(i, suggestion){
+        replacing_string += '<span class="suggestion">' + suggestion + '</span>';
+      });
+      replacing_string += '</span>';
+    }
+    replacing_string += '</span>';
+    replaced_regex = RegExp(replaced_string, 'g');
+    data = data.replace(replaced_regex, replacing_string);
+    match = data.match(REGEX);
+  }
+  return data;
 }
