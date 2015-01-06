@@ -35,6 +35,7 @@ class SpellWrapper < Sinatra::Base
     def check(file)
       ENV['LC_CTYPE']='en_US.UTF-8'
       `delatex #{file} | scripts/splitter.py | scripts/requester.py | scripts/joiner.py | scripts/checker.py #{file}`
+      # 'Danas je ERROR{ljep}{lijep} dan ajme ERROR{mljeko}{mlijeko,mljelo,mljeo} ho cu'
     end
 
   run if app_file == $0

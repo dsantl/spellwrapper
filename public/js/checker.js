@@ -4,7 +4,9 @@ $(function() {
   $checked_text = $('#checked-text');
   $insert_btn = $('#insert-btn');
   $check_btn = $('#check-btn');
-  REGEX = /ERROR\{(.+?)\}\{(.*?)\}/;
+  MISSPELLED_WORD_REGEX = /ERROR\{(.+?)\}\{(.*?)\}/;
+  STRIP_HTML_REGEX_1 = /<\/span>.+?<\/div>/g;
+  STRIP_HTML_REGEX_2 = RegExp('<div class="error"><span class="word">', 'g');
 
   $('body').on('click', '#clear-btn', function(e){
     $textarea.val('').show();
@@ -45,6 +47,26 @@ $(function() {
     }
     submitForm(data);
   });
+
+  $('body').on('click', '#checked-text .error .word', function(e){
+    e.stopPropagation();
+    $(this).closest('.error').siblings().find('.suggestions').hide();
+    $(this).siblings('.suggestions').toggle();
+  });
+
+  $('body').on('click', ':not(#checked-text .error .word)', function(e){
+    e.stopPropagation();
+    $('#checked-text .error .suggestions').hide();
+  });
+
+  $('body').on('click', '#checked-text .error .suggestion', function(e){
+    e.stopPropagation();
+    selected_suggestion = $(this).text();
+    $(this).closest('.error').find('.word').text(selected_suggestion);
+
+    new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+    $textarea.val(new_text);
+  });
 });
 
 function loadFile() {
@@ -79,22 +101,22 @@ function submitForm(form_data){
 }
 
 function formatResult(data){
-  match = data.match(REGEX);
+  match = data.match(MISSPELLED_WORD_REGEX);
   while (match) {
     replaced_string = match[0];
-    replacing_string = '<span class="error">' + match[1];
+    replacing_string = '<div class="error">';
+    replacing_string += '<span class="word">' + match[1] + '</span>';
     suggestions = match[2].split(',');
+    replacing_string += '<span class="suggestions">';
     if (suggestions.length) {
-      replacing_string += '<span class="suggestions">';
       $.each(suggestions, function(i, suggestion){
         replacing_string += '<span class="suggestion">' + suggestion + '</span>';
       });
-      replacing_string += '</span>';
     }
-    replacing_string += '</span>';
+    replacing_string += '<span class="suggestion original">' + match[1] + '</span></span></span></div>';
     replaced_regex = RegExp(replaced_string, 'g');
     data = data.replace(replaced_regex, replacing_string);
-    match = data.match(REGEX);
+    match = data.match(MISSPELLED_WORD_REGEX);
   }
   return data;
 }

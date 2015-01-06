@@ -14,16 +14,43 @@ body {
 
 #checked-text .error {
   color: red;
+  display: inline;
   position: relative;
 }
 
+#checked-text .error:hover {
+  background: whitesmoke;
+  cursor: pointer;
+}
+
 #checked-text .suggestions {
+  background: whitesmoke;
+  border: 1px solid #efefef;
+  border-radius: 3px;
+  display: none;
+  left: 0;
+  padding: 5px;
   position: absolute;
+  top: 25px;
   z-index: 2;
 }
 
 #checked-text .suggestion {
+  border-bottom: 1px solid #dedede;
   color: green;
   display: block;
-  padding: 0 5px;
+  padding: 5px;
+}
+
+#checked-text .suggestion:last-child {
+  border: 0;
+}
+
+#checked-text .suggestion.original {
+  color: red;
+}
+
+#checked-text .suggestion:hover {
+  background: #dedede;
+  cursor: pointer;
 }
