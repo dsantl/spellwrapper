@@ -6,7 +6,7 @@ $(function() {
   $check_btn = $('#check-btn');
   MISSPELLED_WORD_REGEX = /ERROR\{(.+?)\}\{(.*?)\}/;
   STRIP_HTML_REGEX_1 = /<\/span>.+?<\/div>/g;
-  STRIP_HTML_REGEX_2 = RegExp('<div class="error"><span class="word">', 'g');
+  STRIP_HTML_REGEX_2 = /<div class="error"><span class="word( replaced)?">/g;
 
   $('body').on('click', '#clear-btn', function(e){
     $textarea.val('').show();
@@ -80,12 +80,15 @@ $(function() {
 function replaceAllWords(suggestion) {
   // console.log('all');
   selected_suggestion = suggestion.text();
-  $checked_text.find()
   $replaced_word = suggestion.closest('.error').find('.word');
-  old_word = $replaced_word.text();
-  $replaced_word.text(selected_suggestion);
+  replaced_word_html = $replaced_word[0];
+  old_word_html = replaced_word_html.outerHTML;
 
-  new_checked_html = $checked_text.html().replace(old_word, selected_suggestion);
+  $replaced_word.text(selected_suggestion);
+  $replaced_word.addClass('replaced');
+  new_world_html = replaced_word_html.outerHTML;
+
+  new_checked_html = $checked_text.html().replace(old_word_html, new_world_html);
   $checked_text.html(new_checked_html);
   new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
   $textarea.val(new_text);
@@ -94,7 +97,9 @@ function replaceAllWords(suggestion) {
 function replaceCurrentWord(suggestion) {
   // console.log('current');
   selected_suggestion = suggestion.text();
-  suggestion.closest('.error').find('.word').text(selected_suggestion);
+  $replaced_word = suggestion.closest('.error').find('.word');
+  $replaced_word.text(selected_suggestion);
+  $replaced_word.addClass('replaced');
   new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
   $textarea.val(new_text);
 }

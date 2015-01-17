@@ -18,6 +18,10 @@ body {
   position: relative;
 }
 
+#checked-text .error .replaced {
+  color: green;
+}
+
 #checked-text .error:hover {
   background: whitesmoke;
   cursor: pointer;
