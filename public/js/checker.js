@@ -50,24 +50,54 @@ $(function() {
 
   $('body').on('click', '#checked-text .error .word', function(e){
     e.stopPropagation();
+    // console.log('word');
     $(this).closest('.error').siblings().find('.suggestions').hide();
     $(this).siblings('.suggestions').toggle();
   });
 
-  $('body').on('click', ':not(#checked-text .error .word)', function(e){
+  $('body').on('click', function(e){
     e.stopPropagation();
-    $('#checked-text .error .suggestions').hide();
+    // console.log('ostalo');
+    target_class = e.target.className;
+    if (target_class != 'suggestion' && target_class != 'replace-all') {
+      $('#checked-text .error .suggestions').hide();
+    }
   });
 
   $('body').on('click', '#checked-text .error .suggestion', function(e){
     e.stopPropagation();
-    selected_suggestion = $(this).text();
-    $(this).closest('.error').find('.word').text(selected_suggestion);
-
-    new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
-    $textarea.val(new_text);
+    // console.log('suggestion');
+    replace_all =  $(this).closest('.error').find('.replace-all input').prop('checked');
+    if (replace_all) {
+      replaceAllWords($(this));
+    } else {
+      replaceCurrentWord($(this));
+    }
+    $('#checked-text .error .suggestions').hide();
   });
 });
+
+function replaceAllWords(suggestion) {
+  // console.log('all');
+  selected_suggestion = suggestion.text();
+  $checked_text.find()
+  $replaced_word = suggestion.closest('.error').find('.word');
+  old_word = $replaced_word.text();
+  $replaced_word.text(selected_suggestion);
+
+  new_checked_html = $checked_text.html().replace(old_word, selected_suggestion);
+  $checked_text.html(new_checked_html);
+  new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+  $textarea.val(new_text);
+}
+
+function replaceCurrentWord(suggestion) {
+  // console.log('current');
+  selected_suggestion = suggestion.text();
+  suggestion.closest('.error').find('.word').text(selected_suggestion);
+  new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+  $textarea.val(new_text);
+}
 
 function loadFile() {
   file_object = {};
@@ -113,7 +143,8 @@ function formatResult(data){
         replacing_string += '<span class="suggestion">' + suggestion + '</span>';
       });
     }
-    replacing_string += '<span class="suggestion original">' + match[1] + '</span></span></span></div>';
+    replace_all_check = '<label class="replace-all"><input class="replace-all" type="checkbox" checked>Zamijeni sve</label>';
+    replacing_string += '<span class="suggestion original">' + match[1] + '</span>' + replace_all_check +'</span></span></div>';
     replaced_regex = RegExp(replaced_string, 'g');
     data = data.replace(replaced_regex, replacing_string);
     match = data.match(MISSPELLED_WORD_REGEX);
