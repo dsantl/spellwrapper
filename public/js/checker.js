@@ -1,5 +1,6 @@
 $(function() {
-  var file = loadFile();
+  loaded_file = {};
+  loadFile();
   $textarea = $('form textarea');
   $checked_text = $('#checked-text');
   $insert_btn = $('#insert-btn');
@@ -34,12 +35,12 @@ $(function() {
     $loading = $('.loading');
     $loading.show();
 
-    if (Object.keys(file).length) {
+    var data;
+    if (Object.keys(loaded_file).length) {
       data = {
-        text: $textarea.val(),
         file: {
-          filename: file.filename,
-          data: file.data
+          filename: loaded_file.filename,
+          data: loaded_file.data
         }
       }
     } else {
@@ -58,7 +59,7 @@ $(function() {
   $('body').on('click', function(e){
     e.stopPropagation();
     // console.log('ostalo');
-    target_class = e.target.className;
+    var target_class = e.target.className;
     if (target_class != 'suggestion' && target_class != 'replace-all') {
       $('#checked-text .error .suggestions').hide();
     }
@@ -67,7 +68,7 @@ $(function() {
   $('body').on('click', '#checked-text .error .suggestion', function(e){
     e.stopPropagation();
     // console.log('suggestion');
-    replace_all =  $(this).closest('.error').find('.replace-all input').prop('checked');
+    var replace_all =  $(this).closest('.error').find('.replace-all input').prop('checked');
     if (replace_all) {
       replaceAllWords($(this));
     } else {
@@ -79,43 +80,43 @@ $(function() {
 
 function replaceAllWords(suggestion) {
   // console.log('all');
-  selected_suggestion = suggestion.text();
-  $replaced_word = suggestion.closest('.error').find('.word');
-  replaced_word_html = $replaced_word[0];
-  old_word_html = replaced_word_html.outerHTML;
+  var selected_suggestion = suggestion.text();
+  var $replaced_word = suggestion.closest('.error').find('.word');
+  var replaced_word_html = $replaced_word[0];
+  var old_word_html = replaced_word_html.outerHTML;
 
   $replaced_word.text(selected_suggestion);
   $replaced_word.addClass('replaced');
-  new_world_html = replaced_word_html.outerHTML;
+  var new_world_html = replaced_word_html.outerHTML;
 
-  new_checked_html = $checked_text.html().replace(old_word_html, new_world_html);
+  var new_checked_html = $checked_text.html().replace(old_word_html, new_world_html);
   $checked_text.html(new_checked_html);
-  new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+  var new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
   $textarea.val(new_text);
 }
 
 function replaceCurrentWord(suggestion) {
   // console.log('current');
-  selected_suggestion = suggestion.text();
-  $replaced_word = suggestion.closest('.error').find('.word');
+  var selected_suggestion = suggestion.text();
+  var $replaced_word = suggestion.closest('.error').find('.word');
   $replaced_word.text(selected_suggestion);
   $replaced_word.addClass('replaced');
-  new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+  var new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
   $textarea.val(new_text);
 }
 
 function loadFile() {
-  file_object = {};
+  // var file_object = {};
   $('input[type="file"]').on('change', function(){
-    file = $(this)[0].files[0];
+    var file = $(this)[0].files[0];
     var reader = new FileReader();
     reader.onload = function(event) {
-      file_object.filename = file.name;
-      file_object.data = event.target.result;
+      loaded_file.filename = file.name;
+      loaded_file.data = event.target.result;
     };
     reader.readAsDataURL(file);
   });
-  return file_object;
+  // return file_object;
 }
 
 function submitForm(form_data){
@@ -131,26 +132,33 @@ function submitForm(form_data){
       $checked_text.html(formatted_result).show();
       $insert_btn.show();
       $check_btn.hide();
+      $form.find('input[type="file"]').val("");
+      loaded_file = {};
+
+      if (Object.keys(form_data)[0] != "text") {
+        new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+        $textarea.val(new_text);
+      }
     }
   });
 }
 
 function formatResult(data){
-  match = data.match(MISSPELLED_WORD_REGEX);
+  var match = data.match(MISSPELLED_WORD_REGEX);
   while (match) {
     replaced_string = match[0];
-    replacing_string = '<div class="error">';
+    var replacing_string = '<div class="error">';
     replacing_string += '<span class="word">' + match[1] + '</span>';
-    suggestions = match[2].split(',');
+    var suggestions = match[2].split(',');
     replacing_string += '<span class="suggestions">';
     if (suggestions.length) {
       $.each(suggestions, function(i, suggestion){
         replacing_string += '<span class="suggestion">' + suggestion + '</span>';
       });
     }
-    replace_all_check = '<label class="replace-all"><input class="replace-all" type="checkbox" checked>Zamijeni sve</label>';
+    var replace_all_check = '<label class="replace-all"><input class="replace-all" type="checkbox" checked>Zamijeni sve</label>';
     replacing_string += '<span class="suggestion original">' + match[1] + '</span>' + replace_all_check +'</span></span></div>';
-    replaced_regex = RegExp(replaced_string, 'g');
+    var replaced_regex = RegExp(replaced_string, 'g');
     data = data.replace(replaced_regex, replacing_string);
     match = data.match(MISSPELLED_WORD_REGEX);
   }
