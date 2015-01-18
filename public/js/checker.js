@@ -101,7 +101,7 @@ function replaceCurrentWord(suggestion) {
   var $replaced_word = suggestion.closest('.error').find('.word');
   $replaced_word.text(selected_suggestion);
   $replaced_word.addClass('replaced');
-  var new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+  var new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '').replace(/<br\/?\>/g, '\n');
   $textarea.val(new_text);
 }
 
@@ -136,7 +136,7 @@ function submitForm(form_data){
       loaded_file = {};
 
       if (Object.keys(form_data)[0] != "text") {
-        new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '');
+        new_text = $checked_text.html().replace(STRIP_HTML_REGEX_1, '').replace(STRIP_HTML_REGEX_2, '').replace(/<br\/?\>/g, '\n');
         $textarea.val(new_text);
       }
     }
@@ -162,5 +162,6 @@ function formatResult(data){
     data = data.replace(replaced_regex, replacing_string);
     match = data.match(MISSPELLED_WORD_REGEX);
   }
+  data = data.replace(/\n/g, '<br/>');
   return data;
 }
