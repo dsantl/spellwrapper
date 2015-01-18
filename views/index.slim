@@ -1,11 +1,11 @@
 .container
-  h1 Latex spell check
+  br
   br
   form role='form' action='check' method='POST'
     .row
       .col-sm-8
         .form-group
-          textarea.form-control name='text' rows=20 placeholder='Unesite tekst...'
+          textarea.form-control.text-input name='text' rows=20 placeholder='Unesite tekst...'
           #checked-text
           .loading Procesiranje...
       .col-sm-4
@@ -13,7 +13,11 @@
           input type='file' name='file'
       .col-sm-8
         .form-group.text-right
-          .btn.btn-danger.btn-lg#clear-btn Očisti
+          .btn.btn-danger.btn-lg#clear-btn
+            i class="fa fa-eraser"
+            | &nbsp; Očisti
           | &nbsp;
           .btn.btn-warning.btn-lg#insert-btn Nastavi
-          button.btn.btn-success.btn-lg#check-btn type='submit' value='Check' Provjeri
+          button.btn.btn-success.btn-lg#check-btn type='submit' value='Check'
+            i class="fa fa-magic"
+            | &nbsp; Provjeri

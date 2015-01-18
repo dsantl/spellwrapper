@@ -1,6 +1,6 @@
 body {
-  font-family: Open Sans, Arial, sans-serif;
-  font-size: 16px;
+  background: transparent url('/img/grey_wash_wall.png');
+  /*font-family: Open Sans, Arial, sans-serif;*/
 }
 
 #checked-text,
@@ -57,4 +57,31 @@ body {
 #checked-text .suggestion:hover {
   background: #dedede;
   cursor: pointer;
+}
+
+.text-input {
+  background: rgba(51, 51, 51, 0.8);
+  border: 0;
+  border-radius: 3px;
+  color: #ccc;
+}
+
+.text-input:focus {
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(130,130,130,0.6);
+
+}
+
+.btn {
+  border-radius: 3px;
+}
+
+.btn-danger {
+  background-color: #C30512;
+  border-color: #9c0000;
+}
+
+.btn-danger:focus,
+.btn-danger:hover {
+  background-color: #9c0000;
+  border-color: #900000;
 }
