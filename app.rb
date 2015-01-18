@@ -17,7 +17,9 @@ class SpellWrapper < Sinatra::Base
   end
 
   post '/check' do
-    file_path = 'temp.txt'
+    tmp_path = settings.root + '/tmp'
+    Dir.mkdir(tmp_path) unless Dir.exist?(tmp_path)
+    file_path = Tempfile.new(['temp', '.txt'], tmp_path).path
     if params[:file]
       data = params[:file][:data]
       data_index = data.index('base64') + 7
