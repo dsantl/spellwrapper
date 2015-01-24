@@ -1,15 +1,24 @@
 body {
   background: transparent url('/img/grey_wash_wall.png');
-  /*font-family: Open Sans, Arial, sans-serif;*/
+  font-family: Open Sans, Arial, sans-serif;
 }
 
-#checked-text,
-#insert-btn {
+#checked-text {
+  background: rgba(51, 51, 51, 0.8);
+  color: #ccc;
+  display: none;
+  min-height: 500px;
+  padding: 30px 20px;
+  overflow: scroll;
+}
+
+.hidden-custom {
   display: none;
 }
 
-.loading {
+#loading {
   display: none;
+  height: 500px;
 }
 
 #checked-text .error {
@@ -59,11 +68,22 @@ body {
   cursor: pointer;
 }
 
+#checked-text label.replace-all {
+  width: 100px;
+}
+#checked-text label.replace-all:hover {
+  cursor: pointer;
+}
+#checked-text input.replace-all {
+  margin-right: 10px;
+}
+
 .text-input {
   background: rgba(51, 51, 51, 0.8);
   border: 0;
   border-radius: 3px;
   color: #ccc;
+  max-width: 100%;
 }
 
 .text-input:focus {

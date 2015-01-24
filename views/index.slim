@@ -7,7 +7,17 @@
         .form-group
           textarea.form-control.text-input name='text' rows=20 placeholder='Unesite tekst...'
           #checked-text
-          .loading Procesiranje...
+          #loading
+            #circularG
+              div id="circularG_1" class="circularG"
+              div id="circularG_2" class="circularG"
+              div id="circularG_3" class="circularG"
+              div id="circularG_4" class="circularG"
+              div id="circularG_5" class="circularG"
+              div id="circularG_6" class="circularG"
+              div id="circularG_7" class="circularG"
+              div id="circularG_8" class="circularG"
+
       .col-sm-4
         .form-group
           input type='file' name='file'
@@ -15,9 +25,11 @@
         .form-group.text-right
           .btn.btn-danger.btn-lg#clear-btn
             i class="fa fa-eraser"
-            | &nbsp; Očisti
+            |  Očisti
           | &nbsp;
-          .btn.btn-warning.btn-lg#insert-btn Nastavi
+          .btn.btn-info.btn-lg#insert-btn.hidden-custom
+            i class="fa fa-pencil-square-o"
+            |  Nastavi
           button.btn.btn-success.btn-lg#check-btn type='submit' value='Check'
             i class="fa fa-magic"
-            | &nbsp; Provjeri
+            |  Provjeri

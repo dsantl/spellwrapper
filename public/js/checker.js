@@ -10,17 +10,17 @@ $(function() {
   STRIP_HTML_REGEX_2 = /<div class="error"><span class="word( replaced)?">/g;
 
   $('body').on('click', '#clear-btn', function(e){
-    $textarea.val('').show();
+    $textarea.val('').show().focus();
     $checked_text.hide();
-    $insert_btn.hide();
-    $check_btn.show();
+    $insert_btn.addClass('hidden-custom');
+    $check_btn.removeClass('hidden-custom');
   });
 
   $insert_btn.on('click', function(e){
-    $textarea.show();
+    $textarea.show().focus();
     $checked_text.hide().text('');
-    $insert_btn.hide();
-    $check_btn.show();
+    $insert_btn.addClass('hidden-custom');
+    $check_btn.removeClass('hidden-custom');
   });
 
   $('body').on('submit', 'form', function(e){
@@ -32,7 +32,7 @@ $(function() {
     $form = $(this);
     $form.attr('disabled', true).addClass('disabled');
     $textarea.hide();
-    $loading = $('.loading');
+    $loading = $('#loading');
     $loading.show();
 
     var data;
@@ -126,12 +126,12 @@ function submitForm(form_data){
     data: form_data,
     success: function(data) {
       $loading.hide();
-      // $textarea.val(data.result).show();
+        // $textarea.val(data.result).show();
       $form.attr('disabled', false).removeClass('disabled');
       formatted_result = formatResult(data.result);
       $checked_text.html(formatted_result).show();
-      $insert_btn.show();
-      $check_btn.hide();
+      $insert_btn.removeClass('hidden-custom');
+      $check_btn.addClass('hidden-custom');
       $form.find('input[type="file"]').val("");
       loaded_file = {};
 
